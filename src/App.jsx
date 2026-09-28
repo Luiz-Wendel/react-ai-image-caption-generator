@@ -1,5 +1,5 @@
 import react from 'react';
-import './App.css'
+import './App.css';
 
 import { generateCaption } from './models/api';
 
@@ -7,10 +7,12 @@ function App() {
   const [imgSrc, setImgSrc] = react.useState(null);
   const [caption, setCaption] = react.useState("<Caption>");
 
-  function addCaption() {
-    const caption = generateCaption(imgSrc);
+  async function addCaption() {
+    setCaption("Generating caption...");
 
-    setCaption(caption);
+    const caption = await generateCaption(imgSrc);
+
+    setCaption(caption[0].generated_text);
   }
 
   return (
@@ -28,4 +30,4 @@ function App() {
   )
 }
 
-export default App
+export default App;
