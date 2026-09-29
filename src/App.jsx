@@ -19,7 +19,7 @@ function App() {
 
     const captionPTBR = await translate(generatedCaption);
 
-    setCaptionPTBR(captionPTBR[0].translated_text);
+    setCaptionPTBR(captionPTBR[0].translation_text);
   }
 
   return (

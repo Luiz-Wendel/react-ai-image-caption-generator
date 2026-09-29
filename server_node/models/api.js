@@ -1,6 +1,6 @@
 import Translator from "./Translator.js";
 
-function translate(textEN) {
+async function translate(textEN) {
   return Translator.translate(textEN);
 }
 

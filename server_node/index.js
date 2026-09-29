@@ -13,10 +13,14 @@ app.get("/ping", (_req, res) => {
   res.send("pong");
 });
 
-app.post("/translate", (req, res) => {
+app.post("/translate", async (req, res) => {
   console.log("Received request body:", req.body);
 
-  res.send(translate(req.body.caption));
+  const textPTBR = await translate(req.body.caption);
+
+  console.log("Translated text:", textPTBR);
+
+  res.send(textPTBR);
 });
 
 app.listen(PORT, () => {
