@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 
-import { translate } from "./models/api";
+import { translate } from "./models/api.js";
 
 const app = express();
 const PORT = 3000;
