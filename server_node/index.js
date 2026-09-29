@@ -1,6 +1,8 @@
 import express from "express";
 import cors from "cors";
 
+import { translate } from "./models/api";
+
 const app = express();
 const PORT = 3000;
 
@@ -14,7 +16,7 @@ app.get("/ping", (_req, res) => {
 app.post("/translate", (req, res) => {
   console.log("Received request body:", req.body);
 
-  res.send([{translated_text: "Translation endpoint"}]);
+  res.send(translate(req.body.caption));
 });
 
 app.listen(PORT, () => {
