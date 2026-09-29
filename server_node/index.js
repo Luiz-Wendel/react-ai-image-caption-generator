@@ -1,8 +1,10 @@
 import express from "express";
+import cors from "cors";
 
 const app = express();
 const PORT = 3000;
 
+app.use(cors({ origin: "http://localhost:5173" }));
 app.use(express.json());
 
 app.get("/ping", (_req, res) => {
@@ -10,7 +12,9 @@ app.get("/ping", (_req, res) => {
 });
 
 app.post("/translate", (req, res) => {
-  res.send({translated_text: "Translation endpoint"});
+  console.log("Received request body:", req.body);
+
+  res.send([{translated_text: "Translation endpoint"}]);
 });
 
 app.listen(PORT, () => {
