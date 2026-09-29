@@ -4,4 +4,8 @@ async function generateCaption(imgSrc) {
   return ImageCaptioner.generateCaption(imgSrc);
 }
 
-export { generateCaption };
+async function translate(captionEN) {
+  return [{translated_text: captionEN}];
+}
+
+export { generateCaption, translate };
