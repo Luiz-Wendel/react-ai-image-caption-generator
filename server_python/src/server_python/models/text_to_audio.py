@@ -4,13 +4,14 @@ from transformers import AutoProcessor, BarkModel
 def pipeline(model_name):
     processor = AutoProcessor.from_pretrained(model_name)
     model = BarkModel.from_pretrained(model_name)
-    model = model.to_bettertransformer()
+    # model = model.to_bettertransformer()
 
     def pipe(text):
         model_input = processor(text, voice_preset="v2/pt_speaker_8")
         audio = model.generate(**model_input)
+        sample_rate = model.generation_config.sample_rate
 
-        return audio
+        return audio, sample_rate
 
     return pipe
 

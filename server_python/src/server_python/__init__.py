@@ -15,14 +15,15 @@ def ping():
 def text_to_audio():
     text = request.json["text"]
 
-    audio = convert_text_to_audio(text)
+    audio, sample_rate = convert_text_to_audio(text)
 
     file_id = uuid.uuid4()
 
-    save_audio(audio, file_id)
+    save_audio(audio, sample_rate, file_id)
 
     return f"/audio/{file_id}.wav"
 
 @app.route("/audio/<path:audio_file>")
 def get_audio(audio_file):
+    print(f"Serving audio file: {audio_file}")
     return send_from_directory("audio", audio_file)
