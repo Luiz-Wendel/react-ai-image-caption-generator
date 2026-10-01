@@ -1,7 +1,7 @@
 import react from 'react';
 import './App.css';
 
-import { generateCaption, translate } from './models/api';
+import { convertTextToAudio, generateCaption, translate } from './models/api';
 
 function App() {
   const [imgSrc, setImgSrc] = react.useState(null);
@@ -15,17 +15,18 @@ function App() {
     setCaption("Generating caption...");
 
     const caption = await generateCaption(imgSrc);
-    const generatedCaption = caption[0].generated_text;
+    const generatedCaption = caption[0]?.generated_text;
 
     setCaption(generatedCaption);
     setCaptionPTBR("Traduzindo legenda...");
 
     const captionPTBR = await translate(generatedCaption);
+    const textPTBR = captionPTBR[0]?.translation_text;
 
-    setCaptionPTBR(captionPTBR[0].translation_text);
+    setCaptionPTBR(textPTBR);
 
-    // TODO: call endpoint
-    const audioSource = `http://localhost:5000/audio/${captionPTBR[0].translation_text}.wav`;
+    const audioEndpoint = await convertTextToAudio(textPTBR);
+    const audioSource = "http://localhost:5000" + audioEndpoint[0]?.url;
     setAudioSrc(audioSource);
   }
 
@@ -48,8 +49,8 @@ function App() {
         <img src={imgSrc} height={200} style={{ marginBottom: '1em' }}></img>
         <span>{caption}</span>
         <span>{captionPTBR}</span>
-        <audio controls>
-          <source src={audioSrc} type="audio/wav" ref={captionAudio} />
+        <audio controls ref={captionAudio}>
+          <source src={audioSrc} type="audio/wav" />
         </audio>
       </div>
     </>
