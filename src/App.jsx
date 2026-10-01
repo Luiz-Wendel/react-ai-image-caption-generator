@@ -7,6 +7,9 @@ function App() {
   const [imgSrc, setImgSrc] = react.useState(null);
   const [caption, setCaption] = react.useState("<Caption>");
   const [captionPTBR, setCaptionPTBR] = react.useState("<Legenda>");
+  const [audioSrc, setAudioSrc] = react.useState(null);
+
+  const captionAudio = react.useRef();
 
   async function addCaption() {
     setCaption("Generating caption...");
@@ -20,7 +23,19 @@ function App() {
     const captionPTBR = await translate(generatedCaption);
 
     setCaptionPTBR(captionPTBR[0].translation_text);
+
+    // TODO: call endpoint
+    const audioSource = `http://localhost:5000/audio/${captionPTBR[0].translation_text}.wav`;
+    setAudioSrc(audioSource);
   }
+
+  react.useEffect(() => {
+    if (captionAudio.current && audioSrc) {
+      captionAudio.current.pause();
+      captionAudio.current.load();
+      captionAudio.current.play();
+    }
+  }, [audioSrc]);
 
   return (
     <>
@@ -33,6 +48,9 @@ function App() {
         <img src={imgSrc} height={200} style={{ marginBottom: '1em' }}></img>
         <span>{caption}</span>
         <span>{captionPTBR}</span>
+        <audio controls>
+          <source src={audioSrc} type="audio/wav" ref={captionAudio} />
+        </audio>
       </div>
     </>
   )
